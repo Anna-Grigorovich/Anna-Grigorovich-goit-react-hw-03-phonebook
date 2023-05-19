@@ -15,7 +15,7 @@ class App extends Component {
     ],
     filter: '',
   };
-    handleForm = (e) => {
+  handleForm = e => {
     e.preventDefault();
     const { name, number } = e.currentTarget;
     const { contacts } = this.state;
@@ -30,16 +30,16 @@ class App extends Component {
     } else {
       alert('Такой контакт есть, придумай другой');
     }
-  }
-  changeFilter = (e) => {
+  };
+  changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
-  }
+  };
 
-  deleteContact = (id) => {
+  deleteContact = id => {
     this.setState(p => ({
       contacts: p.contacts.filter(contact => contact.id !== id),
     }));
-  }
+  };
 
   getVisibleContacts = () => {
     const { filter, contacts } = this.state;
@@ -47,19 +47,19 @@ class App extends Component {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizeFilter)
     );
-  }
-   componentDidMount () {
+  };
+  componentDidMount() {
     const contacts = localStorage.getItem('contacts');
-    const  parsContacts = JSON.parse(contacts);
-    if(parsContacts) {
-      this.setState({contacts: parsContacts})
+    const parsContacts = JSON.parse(contacts);
+    if (parsContacts) {
+      this.setState({ contacts: parsContacts });
     }
-   }
-  componentDidUpdate (prevProps, prevState) {
-    const {contacts} = this.state
-    if(contacts !== prevState) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-      console.log('изменился стате')
+  }
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      console.log('изменился стате');
     }
   }
   render() {
@@ -68,15 +68,13 @@ class App extends Component {
     return (
       <div className={css.app}>
         <h1>Phonebook</h1>
-        <ContactForm
-          onSubmit={this.handleForm}
-        />
+        <ContactForm onSubmit={this.handleForm} />
         <h2>Contacts</h2>
         <p>Find contacts by name</p>
         <Filter value={filter} onChange={this.changeFilter} />
         <ContactList
           contacts={visibleContacts}
-          onDeleteContat={ this.deleteContact}
+          onDeleteContat={this.deleteContact}
         />
       </div>
     );
